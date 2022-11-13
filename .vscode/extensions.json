@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "streetsidesoftware.code-spell-checker",
+        "Dart-Code.dart-code",
+        "donjayamanne.githistory",
+        "eamodio.gitlens",
+        "yzhang.markdown-all-in-one",
+        "DavidAnson.vscode-markdownlint",
+        "bierner.markdown-mermaid",
+        "redhat.vscode-yaml"
+    ]
+}
