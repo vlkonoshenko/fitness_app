@@ -68,7 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void checkAuth() {
     if (FirebaseAuth.instance.currentUser != null) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (_) => HomePage()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => const HomePage()));
     }
   }
 
@@ -86,48 +87,51 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
-              controller: email,
-              decoration:
-                  InputDecoration(label: Text('Email'), errorText: emailErr),
-            ),
-            TextField(
-              controller: password,
-              decoration: InputDecoration(
-                  label: Text('Password'), errorText: passwordErr),
-            ),
-            TextButton(
-                onPressed: () {
-                  loginUser(email.value.text, password.value.text);
-                },
-                child: Text('Login'))
-          ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Center(
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          child: Column(
+            // Column is also a layout widget. It takes a list of children and
+            // arranges them vertically. By default, it sizes itself to fit its
+            // children horizontally, and tries to be as tall as its parent.
+            //
+            // Invoke "debug painting" (press "p" in the console, choose the
+            // "Toggle Debug Paint" action from the Flutter Inspector in Android
+            // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+            // to see the wireframe for each widget.
+            //
+            // Column has various properties to control how it sizes itself and
+            // how it positions its children. Here we use mainAxisAlignment to
+            // center the children vertically; the main axis here is the vertical
+            // axis because Columns are vertical (the cross axis would be
+            // horizontal).
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextField(
+                controller: email,
+                decoration: InputDecoration(
+                    label: const Text('Email'), errorText: emailErr),
+              ),
+              TextField(
+                controller: password,
+                decoration: InputDecoration(
+                    label: const Text('Password'), errorText: passwordErr),
+              ),
+              TextButton(
+                  onPressed: () {
+                    loginUser(email.value.text, password.value.text);
+                  },
+                  child: const Text('Login'))
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => createUser(email.text, password.text),
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.create),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
