@@ -29,27 +29,22 @@ class HomePageWM extends WidgetModel<HomePage, HomePageModel>
     _dialogBuilder(context);
   }
 
-
-
   @override
   ValueListenable<DayRepository> get list => model.repository;
 
   @override
-  String get date => model.repository.value.dayResult.date.toString();
+  String get date => '';
 
   @override
   void onTapExercise(Exercise e) {
-     _dialogAddSetBuilder(e,context);
+    _dialogAddSetBuilder(e, context);
   }
 
-
-   Future<void> _dialogBuilder(BuildContext context) {
+  Future<void> _dialogBuilder(BuildContext context) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         final name = TextEditingController();
-        final count = TextEditingController();
-        final weight = TextEditingController();
 
         return AlertDialog(
           title: const Text('Новое упражнени'),
@@ -89,8 +84,7 @@ class HomePageWM extends WidgetModel<HomePage, HomePageModel>
     );
   }
 
-
-   Future<void> _dialogAddSetBuilder(Exercise id,BuildContext context) {
+  Future<void> _dialogAddSetBuilder(Exercise id, BuildContext context) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -136,7 +130,7 @@ class HomePageWM extends WidgetModel<HomePage, HomePageModel>
               ),
               child: const Text('Добавить'),
               onPressed: () {
-                model.addSet(id,int.parse(count.text),int.parse(weight.text));
+                model.addSet(id, int.parse(count.text), int.parse(weight.text));
 
                 Navigator.of(context).pop();
               },

@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:fitness_app/models/exercise.dart';
 import 'package:fitness_app/models/exercise_set.dart';
 
@@ -10,20 +12,28 @@ abstract class IDayRepository {
 }
 
 class DayRepository implements IDayRepository {
-  final DayResult dayResult = DayResult(DateTime.now(), []);
+  final List<DayResult> dayResults = [DayResult(DateTime.now(), [])];
 
   DayRepository();
 
-  List<Exercise> get exercises => dayResult.exercises;
+  List<Exercise> get exercises =>
+      dayResults
+          .firstWhereOrNull((element) => element.date.day == DateTime.now().day)
+          ?.exercises ??
+      [];
 
   @override
   void addExercise(Exercise exercise) {
-    dayResult.exercises.add(exercise);
+    final database = FirebaseDatabase.instance;
+    final messagesRef = database.ref('trainers');
+    messagesRef.push().set({'a': 'ads'});
+
+    exercises.add(exercise);
   }
 
   @override
   void addSet(Exercise exerciseId, ExerciseSet exerciseSet) {
-    dayResult.exercises
+    exercises
         .where((element) => element == exerciseId)
         .first
         .sets
@@ -32,6 +42,6 @@ class DayRepository implements IDayRepository {
 
   @override
   void remove(int id) {
-    dayResult.exercises.removeAt(id);
+    exercises.removeAt(id);
   }
 }
