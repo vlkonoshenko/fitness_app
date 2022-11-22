@@ -1,118 +1,51 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:elementary/elementary.dart';
+import 'package:fitness_app/home/home_page_wm.dart';
+import 'package:fitness_app/repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  List<Exercise> list = [];
-
-  final storage = FirebaseStorage.instance;
+class HomePage extends ElementaryWidget<IHomePageWM> {
+  const HomePage({
+    Key? key,
+    WidgetModelFactory wmFactory = homePageWMFactory,
+  }) : super(wmFactory, key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(IHomePageWM wm) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        TextButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.of(context).popUntil((route) => route.isFirst);
-            },
-            child: const Text('Logout'))
-      ]),
-      body: ListView(
-        children: list
-            .map((e) => ListTile(
-                  title: Text(e.name),
-                  subtitle: Text('${e.count} на ${e.weight}'),
-                ))
-            .toList(),
-      ),
+      appBar: AppBar(title: Text(wm.date)),
+      body: ValueListenableBuilder<DayRepository>(
+          valueListenable: wm.list,
+          builder: (context, data, _) {
+            return ListView(
+                children: data.exercises
+                    .map((e) => InkWell(
+                          onTap: () => wm.onTapExercise(e),
+                          child: ListTile(
+                            title: Text(e.name),
+                            subtitle: SizedBox(
+                              height: 40,
+                              width: 100,
+                              child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: e.sets
+                                      .map((e) => Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: Chip(
+                                              label: Text(
+                                                  '${e.count} X ${e.weight}'),
+                                            ),
+                                          ))
+                                      .toList()),
+                            ),
+                          ),
+                        ))
+                    .toList());
+          }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _dialogBuilder(context);
-        },
+        onPressed: wm.dialogPressed,
         child: const Icon(Icons.add),
       ),
     );
   }
-
-  Future<void> _dialogBuilder(BuildContext context) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        final name = TextEditingController();
-        final count = TextEditingController();
-        final weight = TextEditingController();
-
-        return AlertDialog(
-          title: const Text('Basic dialog title'),
-          content: Column(
-            children: [
-              TextField(
-                controller: name,
-                decoration: const InputDecoration(label: Text('Название')),
-              ),
-              TextField(
-                controller: count,
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                decoration:
-                    const InputDecoration(label: Text('Количество повторений')),
-              ),
-              TextField(
-                controller: weight,
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                decoration: const InputDecoration(label: Text('Вес')),
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Disable'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Enable'),
-              onPressed: () {
-                setState(() {
-                  list.add(Exercise(
-                      name.text, int.parse(count.text), int.parse(count.text)));
-                });
-                storage.ref()
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class Exercise {
-  final String name;
-  final int count;
-  final int weight;
-
-  Exercise(this.name, this.count, this.weight);
 }

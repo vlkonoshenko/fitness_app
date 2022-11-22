@@ -1,13 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fitness_app/repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
 import 'home/home_page.dart';
 
 Future<void> main() async {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
+
+final repository = ChangeNotifierProvider<ValueNotifier>(
+    (ref) => ValueNotifier(DayRepository()));
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -69,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void checkAuth() {
     if (FirebaseAuth.instance.currentUser != null) {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => const HomePage()));
+          .pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
     }
   }
 
