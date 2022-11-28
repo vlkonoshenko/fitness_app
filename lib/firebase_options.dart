@@ -80,3 +80,4 @@ class DefaultFirebaseOptions {
     iosBundleId: 'com.example.fitnessApp',
   );
 }
+
