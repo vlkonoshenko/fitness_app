@@ -10,7 +10,6 @@
     "dart.previewFlutterUiGuides": true,
     "dart.previewFlutterUiGuidesCustomTracking": true,
     "editor.codeActionsOnSave": {
-        "source.fixAll": true,
         "source.organizeImports": true,
     },
     "files.trimTrailingWhitespace": true,

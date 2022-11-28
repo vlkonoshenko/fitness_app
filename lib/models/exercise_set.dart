@@ -1,13 +1,15 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'hard_level.dart';
 
-class ExerciseSet {
-  final int count;
-  final int weight;
-  final HardLevel? level;
+part 'exercise_set.freezed.dart';
+part 'exercise_set.g.dart';
 
-  ExerciseSet({
-    this.count = 0,
-    this.weight = 0,
-    this.level,
-  });
+@freezed
+class ExerciseSet with _$ExerciseSet {
+  const factory ExerciseSet({int? count, int? weight, HardLevel? level}) =
+      _ExerciseSet;
+
+  factory ExerciseSet.fromJson(Map<String, Object?> json) =>
+      _$ExerciseSetFromJson(json);
 }

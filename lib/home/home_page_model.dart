@@ -9,13 +9,19 @@ class HomePageModel extends ElementaryModel {
   HomePageModel(this.repository);
 
   void addExerciseName(String name) {
-    repository.value.addExercise(Exercise([], name));
+    repository.value.addExercise(Exercise(sets: [], name: name));
     repository.notifyListeners();
   }
 
   void addSet(Exercise excersiseId, int parse, int parse2) {
-    repository.value
-        .addSet(excersiseId, ExerciseSet(count: parse, weight: parse2));
+    repository.value.addSet(
+      excersiseId,
+      ExerciseSet(count: parse, weight: parse2),
+    );
     repository.notifyListeners();
+  }
+
+  void save() {
+    repository.value.saveToFirebase();
   }
 }

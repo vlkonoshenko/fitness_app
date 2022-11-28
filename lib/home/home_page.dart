@@ -21,13 +21,13 @@ class HomePage extends ElementaryWidget<IHomePageWM> {
                     .map((e) => InkWell(
                           onTap: () => wm.onTapExercise(e),
                           child: ListTile(
-                            title: Text(e.name),
+                            title: Text(e.name ?? ''),
                             subtitle: SizedBox(
                               height: 40,
                               width: 100,
                               child: ListView(
                                   scrollDirection: Axis.horizontal,
-                                  children: e.sets
+                                  children: (e.sets ??[])
                                       .map((e) => Padding(
                                             padding: const EdgeInsets.only(
                                                 right: 8.0),
@@ -42,9 +42,17 @@ class HomePage extends ElementaryWidget<IHomePageWM> {
                         ))
                     .toList());
           }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: wm.dialogPressed,
-        child: const Icon(Icons.add),
+      floatingActionButton: Row(
+        children: [
+          FloatingActionButton(
+            onPressed: wm.dialogPressed,
+            child: const Icon(Icons.add),
+          ),
+          FloatingActionButton(
+            onPressed: wm.save,
+            child: const Icon(Icons.save),
+          ),
+        ],
       ),
     );
   }

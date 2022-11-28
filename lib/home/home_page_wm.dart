@@ -140,6 +140,11 @@ class HomePageWM extends WidgetModel<HomePage, HomePageModel>
       },
     );
   }
+
+  @override
+  void save() {
+    model.save();
+  }
 }
 
 abstract class IHomePageWM extends IWidgetModel {
@@ -152,4 +157,6 @@ abstract class IHomePageWM extends IWidgetModel {
   void dialogPressed();
 
   void onTapExercise(Exercise e);
+
+  void save();
 }
