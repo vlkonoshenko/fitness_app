@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fitness_app/models/exercise.dart';
 import 'package:fitness_app/models/exercise_set.dart';
 
+import 'models/custom_user.dart';
 import 'models/day_result.dart';
+import 'models/train.dart';
 
 abstract class IDayRepository {
   void addExercise(Exercise exercise);
@@ -40,9 +43,18 @@ class DayRepository implements IDayRepository {
     exercises.removeAt(id);
   }
 
-  void saveToFirebase() {
+  void saveToFirebase(String text) {
     final database = FirebaseDatabase.instance;
-    final messagesRef = database.ref('trainers');
-    messagesRef.push().set({'10': dayResults.toJson()});
+    final email = FirebaseAuth.instance.currentUser?.uid;
+    final messagesRef = database.ref('trainers/$email');
+
+    final a = CustomUser(date: DateTime.now(), uid: email ?? '', exercise: [
+      Train(
+        name: text,
+        date: DateTime.now(),
+      )
+    ]);
+    final b = a.toJson();
+    messagesRef.push().update(b);
   }
 }

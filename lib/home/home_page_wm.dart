@@ -142,8 +142,8 @@ class HomePageWM extends WidgetModel<HomePage, HomePageModel>
   }
 
   @override
-  void save() {
-    model.save();
+  void save(String text) {
+    model.save(text);
   }
 }
 
@@ -158,5 +158,5 @@ abstract class IHomePageWM extends IWidgetModel {
 
   void onTapExercise(Exercise e);
 
-  void save();
+  void save(String text);
 }

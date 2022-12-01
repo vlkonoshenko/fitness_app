@@ -21,7 +21,7 @@ class HomePageModel extends ElementaryModel {
     repository.notifyListeners();
   }
 
-  void save() {
-    repository.value.saveToFirebase();
+  void save(String text) {
+    repository.value.saveToFirebase(text);
   }
 }

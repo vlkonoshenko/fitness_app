@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void checkAuth() {
     if (FirebaseAuth.instance.currentUser != null) {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
+          .pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
     }
   }
 
