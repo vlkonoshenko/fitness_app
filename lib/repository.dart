@@ -5,7 +5,6 @@ import 'package:fitness_app/models/exercise_set.dart';
 
 import 'models/custom_user.dart';
 import 'models/day_result.dart';
-import 'models/train.dart';
 
 abstract class IDayRepository {
   void addExercise(Exercise exercise);
@@ -48,12 +47,7 @@ class DayRepository implements IDayRepository {
     final email = FirebaseAuth.instance.currentUser?.uid;
     final messagesRef = database.ref('trainers/$email');
 
-    final a = CustomUser(date: DateTime.now(), uid: email ?? '', exercise: [
-      Train(
-        name: text,
-        date: DateTime.now(),
-      )
-    ]);
+    final a = CustomUser(date: DateTime.now(), uid: email ?? '');
     final b = a.toJson();
     messagesRef.push().update(b);
   }

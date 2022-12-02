@@ -6,7 +6,7 @@ part of 'train.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Train _$TrainFromJson(Map<String, dynamic> json) => Train(
+Train _$TrainFromJson(Map json) => Train(
       name: json['name'] as String,
       date: DateTime.parse(json['date'] as String),
     );

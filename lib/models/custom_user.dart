@@ -4,7 +4,7 @@ import 'train.dart';
 
 part 'custom_user.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, anyMap: true)
 class CustomUser {
   final DateTime date;
   final String uid;

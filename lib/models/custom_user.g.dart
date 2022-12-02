@@ -6,11 +6,11 @@ part of 'custom_user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CustomUser _$CustomUserFromJson(Map<String, dynamic> json) => CustomUser(
+CustomUser _$CustomUserFromJson(Map json) => CustomUser(
       date: DateTime.parse(json['date'] as String),
       uid: json['uid'] as String,
       exercise: (json['exercise'] as List<dynamic>?)
-              ?.map((e) => Train.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => Train.fromJson(Map<String, dynamic>.from(e as Map)))
               .toList() ??
           const [],
     );

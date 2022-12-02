@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../models/custom_user.dart';
 import '../models/exercise.dart';
 import 'home_page.dart';
 
@@ -34,6 +35,8 @@ class HomePageWM extends WidgetModel<HomePage, HomePageModel>
 
   @override
   String get date => '';
+
+  ValueNotifier<List<CustomUser>> get trainer => model.trainer;
 
   @override
   void onTapExercise(Exercise e) {

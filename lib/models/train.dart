@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'train.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(anyMap: true)
 class Train {
   final String name;
   final DateTime date;
