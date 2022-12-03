@@ -6,7 +6,7 @@ part of 'exercise_set.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ExerciseSet _$ExerciseSetFromJson(Map<String, dynamic> json) => ExerciseSet(
+ExerciseSet _$ExerciseSetFromJson(Map json) => ExerciseSet(
       count: json['count'] as int?,
       weight: json['weight'] as int?,
     );

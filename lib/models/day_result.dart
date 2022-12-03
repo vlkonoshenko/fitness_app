@@ -4,7 +4,10 @@ import 'exercise.dart';
 
 part 'day_result.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(
+  anyMap: true,
+  explicitToJson: true,
+)
 class DayResult {
   final DateTime date;
 

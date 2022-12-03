@@ -4,11 +4,14 @@ import 'exercise_set.dart';
 
 part 'exercise.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(
+  anyMap: true,
+  explicitToJson: true,
+)
 class Exercise {
   final String name;
 
-  final List<ExerciseSet>? sets;
+  final List<ExerciseSet> sets;
 
   Exercise({required this.name, required this.sets});
 

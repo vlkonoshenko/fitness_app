@@ -2,7 +2,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'exercise_set.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(
+  anyMap: true,
+  explicitToJson: true,
+)
 class ExerciseSet {
   final int? count;
   final int? weight;
