@@ -1,46 +1,53 @@
 import 'package:elementary/elementary.dart';
 import 'package:fitness_app/home/home_page_wm.dart';
-import 'package:fitness_app/repository.dart';
+import 'package:fitness_app/models/day_result.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends ElementaryWidget<IHomePageWM> {
-  const HomePage({
+class HomePage extends ElementaryWidget<HomePageWM> {
+  final TextEditingController controller = TextEditingController();
+
+  HomePage({
     Key? key,
     WidgetModelFactory wmFactory = homePageWMFactory,
   }) : super(wmFactory, key: key);
 
   @override
-  Widget build(IHomePageWM wm) {
+  Widget build(HomePageWM wm) {
     return Scaffold(
-      appBar: AppBar(title: Text(wm.date)),
-      body: ValueListenableBuilder<DayRepository>(
-          valueListenable: wm.list,
+      appBar: AppBar(
+        title: const Text('Тест'),
+        actions: [
+          IconButton(
+            onPressed: () => wm.save(controller.text),
+            icon: const Icon(Icons.save),
+          )
+        ],
+      ),
+      body: ValueListenableBuilder<DayResult>(
+          valueListenable: wm.trainer,
           builder: (context, data, _) {
-            return ListView(
-                children: data.exercises
-                    .map((e) => InkWell(
-                          onTap: () => wm.onTapExercise(e),
-                          child: ListTile(
-                            title: Text(e.name),
-                            subtitle: SizedBox(
-                              height: 40,
-                              width: 100,
-                              child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: e.sets
-                                      .map((e) => Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 8.0),
-                                            child: Chip(
-                                              label: Text(
-                                                  '${e.count} X ${e.weight}'),
-                                            ),
-                                          ))
-                                      .toList()),
-                            ),
+            return ListView(children: [
+              Text(data.date.toString()),
+              ...data.exercises
+                  .map((e) => ListTile(
+                        onTap: () => wm.onTapExercise(e),
+                        title: Text(e.name),
+                        subtitle: SizedBox(
+                          height: 50,
+                          child: ListView(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            children: e.sets
+                                .map((d) => Container(
+                                    color: Colors.amberAccent,
+                                    margin: const EdgeInsets.all(2),
+                                    child: Text('${d.count} x ${d.weight}')))
+                                .toList(),
                           ),
-                        ))
-                    .toList());
+                        ),
+                      ))
+                  .toList(),
+            ]);
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: wm.dialogPressed,

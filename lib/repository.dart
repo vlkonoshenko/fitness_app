@@ -1,4 +1,4 @@
-import 'package:collection/collection.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fitness_app/models/exercise.dart';
 import 'package:fitness_app/models/exercise_set.dart';
@@ -12,28 +12,18 @@ abstract class IDayRepository {
 }
 
 class DayRepository implements IDayRepository {
-  final List<DayResult> dayResults = [DayResult(DateTime.now(), [])];
+  final DayResult dayResults = DayResult(date: DateTime.now(), exercises: []);
 
   DayRepository();
 
-  List<Exercise> get exercises =>
-      dayResults
-          .firstWhereOrNull((element) => element.date.day == DateTime.now().day)
-          ?.exercises ??
-      [];
-
   @override
   void addExercise(Exercise exercise) {
-    final database = FirebaseDatabase.instance;
-    final messagesRef = database.ref('trainers');
-    messagesRef.push().set({'a': 'ads'});
-
-    exercises.add(exercise);
+    dayResults.exercises.add(exercise);
   }
 
   @override
   void addSet(Exercise exerciseId, ExerciseSet exerciseSet) {
-    exercises
+    dayResults.exercises
         .where((element) => element == exerciseId)
         .first
         .sets
@@ -42,6 +32,15 @@ class DayRepository implements IDayRepository {
 
   @override
   void remove(int id) {
-    exercises.removeAt(id);
+    dayResults.exercises.removeAt(id);
+  }
+
+  void saveToFirebase(DayResult result) {
+    final database = FirebaseDatabase.instance;
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    final messagesRef = database.ref('trainers/$uid');
+
+    final b = result.toJson();
+    messagesRef.push().update(b);
   }
 }
