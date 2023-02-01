@@ -1,13 +1,22 @@
-import 'hard_level.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'exercise_set.g.dart';
+
+@JsonSerializable(
+  anyMap: true,
+  explicitToJson: true,
+)
 class ExerciseSet {
-  final int count;
-  final int weight;
-  final HardLevel? level;
+  final int? count;
+  final int? weight;
 
   ExerciseSet({
-    this.count = 0,
-    this.weight = 0,
-    this.level,
+    this.count,
+    this.weight,
   });
+
+  factory ExerciseSet.fromJson(Map<String, dynamic> json) =>
+      _$ExerciseSetFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExerciseSetToJson(this);
 }

@@ -1,6 +1,7 @@
 import 'package:elementary/elementary.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness_app/home/home_page_model.dart';
+import 'package:fitness_app/models/day_result.dart';
 import 'package:fitness_app/repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,32 +11,23 @@ import '../models/exercise.dart';
 import 'home_page.dart';
 
 HomePageWM homePageWMFactory(BuildContext context) {
-  return HomePageWM(HomePageModel(ValueNotifier(DayRepository())));
+  return HomePageWM(HomePageModel(DayRepository()));
 }
 
-class HomePageWM extends WidgetModel<HomePage, HomePageModel>
-    implements IHomePageWM {
-  final _list = <Exercise>[];
+class HomePageWM extends WidgetModel<HomePage, HomePageModel> {
   HomePageWM(super.model);
 
-  @override
   void onSignOutPressed() {
     FirebaseAuth.instance.signOut();
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
-  @override
   void dialogPressed() {
     _dialogBuilder(context);
   }
 
-  @override
-  ValueListenable<DayRepository> get list => model.repository;
+  ValueNotifier<DayResult> get trainer => model.dayResult;
 
-  @override
-  String get date => '';
-
-  @override
   void onTapExercise(Exercise e) {
     _dialogAddSetBuilder(e, context);
   }
@@ -140,16 +132,9 @@ class HomePageWM extends WidgetModel<HomePage, HomePageModel>
       },
     );
   }
-}
 
-abstract class IHomePageWM extends IWidgetModel {
-  ValueListenable<DayRepository> get list;
-
-  String get date;
-
-  void onSignOutPressed();
-
-  void dialogPressed();
-
-  void onTapExercise(Exercise e);
+  @override
+  void save(String text) {
+    model.save(text);
+  }
 }
