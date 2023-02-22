@@ -34,7 +34,7 @@ dependencies:
   elementary: ^1.5.0
   collection: ^1.16.0
   flutter_riverpod: ^2.1.1
-  firebase_core: ^2.2.0
+  firebase_core: ^2.7.0
   firebase_auth: ^4.0.1
   firebase_storage: ^11.0.6
   firebase_database: ^10.0.6
